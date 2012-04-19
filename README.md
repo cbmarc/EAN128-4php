@@ -28,7 +28,8 @@ There are two options for basic usage:
 
 ```php
 <?php
-  // This will download directly the generated barcode, without saving it (allowing you to load it directly in an img)
+  // This will download directly the generated barcode, 
+  // without saving it (allowing you to load it directly in an img)
   createImageBuffer($barcode);
   
   // This will save the image file with the generated barcode. Filename is specified
