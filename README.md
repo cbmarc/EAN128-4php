@@ -23,8 +23,9 @@ to EAN128-4php and then include it:
 Usage
 -----
 
-Once you have installed EAN128-4php in your project you're ready to use it. This library is built as a module (not as a class). 
-There are two options for basic usage:
+Once you have installed EAN128-4php in your project you're ready to use it. This library can be used the way that best feets your needs:
+
+1. Including EAN128-4php.php and just invoking it to create a file:
 
 ```php
 <?php
@@ -32,10 +33,9 @@ There are two options for basic usage:
   createImageFile($barcode, $filename);
 ?>
 ```
-And createImageBuffer, which can directly load the image in a img html tag:
+
+2. Without including the file, calling it directly from an img tag:
 
 ```php
-<img src="<?php createImageBuffer($barcode); ?>" alt="barcode" />
+<img src="EAN128-4php.php?barcode=<?php echo $barcode; ?>"/>
 ```
-
-Some users have reported this option caused a "headers already sent". Help solving this issue will be appreciated.
