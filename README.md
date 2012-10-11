@@ -32,3 +32,10 @@ There are two options for basic usage:
   createImageFile($barcode, $filename);
 ?>
 ```
+And createImageBuffer, which can directly load the image in a img html tag:
+
+```php
+<img src="<?php createImageBuffer($barcode); ?>" alt="barcode" />
+```
+
+Some users have reported this option caused a "headers already sent". Help solving this issue will be appreciated.
