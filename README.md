@@ -25,7 +25,7 @@ Usage
 
 Once you have installed EAN128-4php in your project you're ready to use it. This library can be used the way that best feets your needs:
 
-1. Including EAN128-4php.php and just invoking it to create a file:
+1- Including EAN128-4php.php and just invoking it to create a file:
 
 ```php
 <?php
@@ -34,7 +34,7 @@ Once you have installed EAN128-4php in your project you're ready to use it. This
 ?>
 ```
 
-2. Without including the file, calling it directly from an img tag:
+2- Without including the file, calling it directly from an img tag:
 
 ```php
 <img src="EAN128-4php.php?barcode=<?php echo $barcode; ?>"/>
