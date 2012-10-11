@@ -159,10 +159,10 @@ function createImageFile($barcode, $filename) {
 	}
 }
 
-if (!isset($_GET["barcode"])) {
+if (isset($_GET["barcode"])) {
 	$barcode = $_GET['barcode'];
 	if ($barcode != "") {
 		echo createImageBuffer($barcode);
 	}
 }
-?>}
+?>
