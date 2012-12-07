@@ -138,16 +138,40 @@ function create($barcode, $filename) {
 }
 
 function createImageBuffer($barcode) {
-	// Set content type
 	$cachefile = "cacheBarcode";
+	// Set content type
 	header('Content-Type: image/png');
 	header('Content-Disposition: Attachment;filename=image.png');
+	
+	// Create the barcode
 	create($barcode, $cachefile);
 	try {
 		$fp = fopen($cachefile . ".png", 'rb'); // stream the image directly from the cachefile
 		fpassthru($fp);
 	} catch (Exception $e) {
 		print $e;
+	}
+}
+
+function printImageBuffer($barcode) {
+	$cachefile = "cacheBarcode";
+
+	// Create the barcode
+	create($barcode, $cachefile);
+	
+	$contents = @file_get_contents($cachefile . ".png");
+	
+	// Set response headers to return an image
+	header("Content-type: image/png");
+	header('Expires: ' . date('r', strtotime("+6 months")), true);
+	header("Pragma: public");
+	header("Cache-Control: public");
+	header("Content-Length: " . strlen($contents));
+	
+	// this chunking is done for supposedly better performance
+	$split_string = str_split($contents, 1024);
+	foreach ($split_string as $chunk) {
+		echo $chunk;
 	}
 }
 
@@ -160,9 +184,14 @@ function createImageFile($barcode, $filename) {
 }
 
 if (isset($_GET["barcode"])) {
+	$type = isset($_GET["type"]) ? $_GET["type"] : "default";
+	
 	$barcode = $_GET['barcode'];
 	if ($barcode != "") {
-		echo createImageBuffer($barcode);
+		if ($type == "attach")
+			echo createImageBuffer($barcode);
+		else 
+			printImageBuffer($barcode);
 	}
 }
 ?>

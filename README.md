@@ -39,3 +39,9 @@ Once you have installed EAN128-4php in your project you're ready to use it. This
 ```php
 <img src="EAN128-4php.php?barcode=<?php echo $barcode; ?>"/>
 ```
+
+3- Without including the file, calling it directly from an img tag but defined as an attachment (ideal if you want to download the image instead of showing it):
+
+```php
+<img src="EAN128-4php.php?barcode=<?php echo $barcode; ?>&type=attach"/>
+```
