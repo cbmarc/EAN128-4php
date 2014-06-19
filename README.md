@@ -30,18 +30,19 @@ Once you have installed EAN128-4php in your project you're ready to use it. This
 ```php
 <?php
   // This will save the image file with the generated barcode. Filename is specified
-  createImageFile($barcode, $filename);
+  $ean128 = new EAN1284php();
+  $ean128->createImageFile($barcode, $filename);
 ?>
 ```
 
 2- Without including the file, calling it directly from an img tag:
 
 ```php
-<img src="EAN128-4php.php?barcode=<?php echo $barcode; ?>"/>
+<img src="EAN128-4php/EAN128-4php.php?barcode=<?php echo $barcode; ?>"/>
 ```
 
 3- Without including the file, calling it directly but defined as an attachment (ideal if you want to download the image instead of showing it), you can also use this method inside an image tag:
 
 ```php
-EAN128-4php.php?barcode=<?php echo $barcode; ?>&type=attach
+EAN128-4php/EAN128-4php.php?barcode=<?php echo $barcode; ?>&type=attach
 ```
