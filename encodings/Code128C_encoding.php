@@ -1,4 +1,4 @@
-<?
+<?php
 /*
    This file is part of EAN128-4php.
 
@@ -131,5 +131,3 @@ class Code128cEncoding {
 	}
 
 }
-
-?>

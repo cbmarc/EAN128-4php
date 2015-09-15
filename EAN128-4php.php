@@ -1,4 +1,4 @@
-<?
+<?php
 /*
    This file is part of EAN128-4php.
 
@@ -103,15 +103,13 @@ class EAN1284php {
 		$fontsize=$scale * 8;
 		$fontheight=$total_y-($fontsize/2.5)+2;
 		@imagettftext($im, $fontsize, 0, ($total_x / 2)-(strlen($text)*$fontsize/2.68), $fontheight, $col_text, $font_loc, $text);
-	 	
 	 	if ($filename != "") {
-		 	/* write the file */
-		 	$this->barcode_outputfile($im, $filename, $mode);
-		 	imagedestroy($im);
+	 		$this->barcode_outputfile($im, $filename, $mode);
 	 	}
+	 	return $im;
 	}
 
-	function create($barcode, $filename) {
+	function create($barcode, $filename = "") {
 		$barcode_data = "";
 		/* Code128C character matching */
 		$encoding = new Code128cEncoding();
@@ -123,14 +121,15 @@ class EAN1284php {
 			// Get barcode data
 			$i = 1;
 			foreach ($arr_barcode as $pair) {
-				$i++;
 				$checksum += (intval($pair) * $i);
+				
 				$trans_pair = $code128c_codes[$pair];
 				if ($trans_pair != "") {
 					$barcode_data .= $trans_pair;
 				} else {
 					throw new Exception("Incorrect barcode format.");
 				}
+				$i++;
 			}
 			$checksum += (intval($code128c_codes["FNC1_DATA"])*1);
 			$checksum = $checksum % 103;
@@ -139,48 +138,33 @@ class EAN1284php {
 			$final_barcode = $code128c_codes["START"] . $code128c_codes["FNC1"] . $barcode_data . $code128c_codes["STOP"] . $code128c_codes["TERMINATE"];
 		
 			// Draw
-			$this->barcode_outimage($barcode, $final_barcode, 1, "PNG", 0, array("bottom" => 15, "top" => 5, "left" => 15, "right" => 15), $filename);
+			return $this->barcode_outimage($barcode, $final_barcode, 1, "PNG", 0, array("bottom" => 15, "top" => 5, "left" => 15, "right" => 15), $filename);
 		} catch (Exception $e) {
 			print $e;
 		}
+		return null;
 	}
 
 	function createImageBuffer($barcode) {
-		$cachefile = "cacheBarcode";
 		// Set content type
 		header('Content-Type: image/png');
 		header('Content-Disposition: Attachment;filename=image.png');
-		
+		//header("Content-Length: " . strlen($im));
+
 		// Create the barcode
-		$this->create($barcode, $cachefile);
-		try {
-			$fp = fopen($cachefile . ".png", 'rb'); // stream the image directly from the cachefile
-			fpassthru($fp);
-		} catch (Exception $e) {
-			print $e;
-		}
+		$im = $this->create($barcode);
+		imagepng($im);
+		imagedestroy($im);
 	}
 
 	function printImageBuffer($barcode) {
-		$cachefile = "cacheBarcode";
-
-		// Create the barcode
-		$this->create($barcode, $cachefile);
-		
-		$contents = @file_get_contents($cachefile . ".png");
-		
 		// Set response headers to return an image
 		header("Content-type: image/png");
-		header('Expires: ' . date('r', strtotime("+6 months")), true);
-		header("Pragma: public");
-		header("Cache-Control: public");
-		header("Content-Length: " . strlen($contents));
-		
-		// this chunking is done for supposedly better performance
-		$split_string = str_split($contents, 1024);
-		foreach ($split_string as $chunk) {
-			echo $chunk;
-		}
+-
+		// Create the barcode
+		$im = $this->create($barcode);
+		imagepng($im);
+		imagedestroy($im);
 	}
 
 	function createImageFile($barcode, $filename) {
@@ -200,7 +184,7 @@ if (isset($_GET["barcode"])) {
 	$barcode = $_GET['barcode'];
 	if ($barcode != "") {
 		if ($type == "attach")
-			echo $ean128->createImageBuffer($barcode);
+			$ean128->createImageBuffer($barcode);
 		else 
 			$ean128->printImageBuffer($barcode);
 	}
