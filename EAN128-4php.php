@@ -121,6 +121,7 @@ class EAN1284php {
 			// Get barcode data
 			$i = 1;
 			foreach ($arr_barcode as $pair) {
+				$i++;
 				$checksum += (intval($pair) * $i);
 				
 				$trans_pair = $code128c_codes[$pair];
@@ -129,7 +130,7 @@ class EAN1284php {
 				} else {
 					throw new Exception("Incorrect barcode format.");
 				}
-				$i++;
+				
 			}
 			$checksum += (intval($code128c_codes["FNC1_DATA"])*1);
 			$checksum = $checksum % 103;
