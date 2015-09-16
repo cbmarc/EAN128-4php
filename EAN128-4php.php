@@ -134,7 +134,10 @@ class EAN1284php {
 			}
 			$checksum += (intval($code128c_codes["FNC1_DATA"])*1);
 			$checksum = $checksum % 103;
-			$barcode_data .= $code128c_codes[str_pad($checksum, 2, '0', STR_PAD_LEFT)];
+			
+			$code_keys = array_keys($code128c_codes);
+			$barcode_data .= $code128c_codes[$code_keys[$checksum]];
+			
 			// Buid final barcode
 			$final_barcode = $code128c_codes["START"] . $code128c_codes["FNC1"] . $barcode_data . $code128c_codes["STOP"] . $code128c_codes["TERMINATE"];
 		
