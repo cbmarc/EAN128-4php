@@ -15,7 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with EAN128-4php.  If not, see <http://www.gnu.org/licenses/>.
     
-    Copyright 2012 Marc Carné - http://www.garageofapps.com
+    Copyright 2012 Marc Carné 
 */
 
 /* ******************************************************************** */
