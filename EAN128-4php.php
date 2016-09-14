@@ -44,7 +44,7 @@ class EAN1284php {
 
     public function barcode_outputfile($image, $filename, $mode) {
         /* output the image */
-        $mode=strtolower($mode);
+        $mode = strtolower($mode);
         if ($mode=='jpg' || $mode=='jpeg'){
             $filename .= '.jpg';
             imagejpeg($image,$filename);
@@ -76,12 +76,12 @@ class EAN1284php {
         }
 
         /* allocate the image */
-        $total_x=( $xpos )+$space['right']+$space['right'];
+        $total_x = $xpos + $space['right'] + $space['right'];
         $xpos=$space['left'];
-        if (!function_exists("imagecreate")){
+        if (!function_exists('imagecreate')){
             // GD is not installed or enabled
             print "You don't have the gd2 extension enabled\n";
-            return "";
+            return '';
         }
         $im=imagecreate($total_x, $total_y);
         /* create image stuff */
@@ -117,7 +117,7 @@ class EAN1284php {
         try {
             $arr_barcode = str_split($barcode, 2);
 
-            $checksum = (int) $code128c_codes["START_DATA"];
+            $checksum = (int) $code128c_codes['START_DATA'];
             // Get barcode data
             $i = 1;
             foreach ($arr_barcode as $pair) {
@@ -128,21 +128,21 @@ class EAN1284php {
                 if ($trans_pair != '') {
                     $barcode_data .= $trans_pair;
                 } else {
-                    throw new Exception("Incorrect barcode format.");
+                    throw new Exception('Incorrect barcode format.');
                 }
 
             }
-            $checksum += (int) $code128c_codes["FNC1_DATA"] * 1;
+            $checksum += (int) $code128c_codes['FNC1_DATA'] * 1;
             $checksum = $checksum % 103;
 
             $code_keys = array_keys($code128c_codes);
             $barcode_data .= $code128c_codes[$code_keys[$checksum]];
 
             // Buid final barcode
-            $final_barcode = $code128c_codes["START"] . $code128c_codes["FNC1"] . $barcode_data . $code128c_codes["STOP"] . $code128c_codes["TERMINATE"];
+            $final_barcode = $code128c_codes['START'] . $code128c_codes['FNC1'] . $barcode_data . $code128c_codes['STOP'] . $code128c_codes['TERMINATE'];
 
             // Draw
-            return $this->barcode_outimage($barcode, $final_barcode, 1, "PNG", 0, array("bottom" => 15, "top" => 5, "left" => 15, "right" => 15), $filename);
+            return $this->barcode_outimage($barcode, $final_barcode, 1, 'PNG', 0, array('bottom' => 15, 'top' => 5, 'left' => 15, 'right' => 15), $filename);
         } catch (Exception $e) {
             print $e;
         }
@@ -175,7 +175,7 @@ class EAN1284php {
         if ($filename != '') {
             $this->create($barcode, $filename);
         } else {
-            print "Filename must be specified. If you need a buffered image use createImageBuffer instead.";
+            print 'Filename must be specified. If you need a buffered image use createImageBuffer instead.';
         }
     }
 
