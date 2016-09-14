@@ -62,11 +62,19 @@ class EAN1284php {
         global $bar_color, $bg_color, $text_color;
         global $font_loc;
         /* set defaults if not specified */
-        if ($scale<1) $scale=2;
-        $total_y=(int)($total_y);
-        if ($total_y<1) $total_y=(int)$scale * 60;
-        if (!$space)
+        if ($scale<1) {
+            $scale=2;
+        }
+
+        $total_y=(int)$total_y;
+
+        if ($total_y<1) {
+            $total_y=(int)$scale * 60;
+        }
+
+        if (!$space) {
             $space=array('top'=>2*$scale,'bottom'=>2*$scale,'left'=>2*$scale,'right'=>2*$scale);
+        }
 
         /* count total width based on the number of bars we need to paint */
         $xpos=0;
